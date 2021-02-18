@@ -63,11 +63,8 @@ class Student
   def self.find_by_name(name)
     sql = "SELECT * FROM students WHERE name = ?"
 
-    DB[:conn].execute(sql, name).each do |row|
-      student = Student.new(row[1], row[2], row[0])
-      @@all << student
-    end
-    @@all[@@all.length - 1]
+    db_row = DB[:conn].execute(sql, name)[0]
+    self.new_from_db(db_row)
   end
 
 end
